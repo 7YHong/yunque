@@ -1,7 +1,42 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
+import { Tab } from "@headlessui/react";
+import type { NextPage } from "next";
+import Head from "next/head";
+import Image from "next/image";
 
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(" ");
+}
+
+const tabStyle = ({ selected }) =>
+classNames(
+  'w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700',
+  'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
+  selected
+    ? 'bg-white shadow'
+    : 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
+);
+
+function MyTabs() {
+  return (
+    <div className="w-full  px-4 py-4 sm:px-0 bg-gradient-to-r from-green-400 to-blue-500">
+      <Tab.Group>
+        <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
+          <Tab className={tabStyle}>Tab 1</Tab>
+          <Tab className={tabStyle}>Tab 2</Tab>
+          <Tab className={tabStyle}>Tab 3</Tab>
+        </Tab.List>
+        <Tab.Panels className="mt-2">
+          <Tab.Panel className={classNames(
+                'rounded-xl bg-blue-300 p-3',
+                'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2'
+              )}>Content 1</Tab.Panel>
+          <Tab.Panel>Content 2</Tab.Panel>
+          <Tab.Panel>Content 3</Tab.Panel>
+        </Tab.Panels>
+      </Tab.Group>
+    </div>
+  );
+}
 const Home: NextPage = () => {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-2">
@@ -9,17 +44,17 @@ const Home: NextPage = () => {
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
+      <MyTabs />
       <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
         <h1 className="text-6xl font-bold">
-          Welcome to{' '}
+          Welcome to{" "}
           <a className="text-blue-600" href="https://nextjs.org">
             Next.js!
           </a>
         </h1>
 
         <p className="mt-3 text-2xl">
-          Get started by editing{' '}
+          Get started by editing{" "}
           <code className="rounded-md bg-gray-100 p-3 font-mono text-lg">
             pages/index.tsx
           </code>
@@ -75,12 +110,12 @@ const Home: NextPage = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
+          Powered by{" "}
           <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
         </a>
       </footer>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
