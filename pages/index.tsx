@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid'
+import { BellIcon, ChevronLeftIcon, ChevronRightIcon, MenuIcon, XIcon } from '@heroicons/react/solid'
+import { Disclosure, Menu, Transition } from "@headlessui/react";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -35,23 +36,56 @@ const news = [
   { title: "全球连线｜四季中国之芒种：风吹麦浪", cover: "https://img-issue.yunnan.cn/uploadfile/test/2022/0606/202206060832172688.jpg", editor: "小云" },
 ]
 
-const IndigoTabs = () => {
+const Navigation = () => {
   const [activeStatus, setActiveStatus] = useState(0);
   return (
-    <div className="sticky top-0 w-full px-20 justify-between flex-wrap block bg-white rounded shadow">
-      <div className="xl:w-full xl:mx-0 px-5 h-12 flex">
-        <span className="text-2xl py-2 pr-10 text-yellow-700 font-bold font-mono">云雀</span>
-        <ul className="flex">
-          {navigation.map((nav, idx) => (
-            <li key={idx} className={classNames("text-sm mr-10 font-normal py-3 flex-col", activeStatus == idx ? "text-indigo-700 border-indigo-700" : "text-gray-600 hover:text-gray-800")}
-              onClick={() => setActiveStatus(idx)}>
-              <span className="mb-3 cursor-pointer">{nav.name}</span>
-              {activeStatus == idx && <div className="mt-3 w-full h-1 bg-indigo-700 rounded-t-md" />}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
+    <Disclosure as="nav" className="sticky top-0 w-full bg-gray-800 sm:px-20">
+      {({ open }) => (
+        <>
+          <div className="flex justify-center sm:justify-start">
+            <Disclosure.Button className="absolute p-4 left-0 text-gray-400 sm:hidden">
+              {open ?
+                <XIcon className="block h-6 w-6" aria-hidden="true" /> :
+                <MenuIcon className="block h-6 w-6" aria-hidden="true" />
+              }
+            </Disclosure.Button>
+            <text className="text-2xl py-3 text-yellow-700 font-bold font-mono sm:pr-10">云雀</text>
+            <div className="hidden sm:flex space-x-4 items-center">
+              {navigation.map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className={classNames(
+                    item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                    'px-3 py-2 rounded-md text-sm font-medium'
+                  )}
+                  aria-current={item.current ? 'page' : undefined}
+                >
+                  {item.name}
+                </a>
+              ))}
+            </div>
+          </div>
+          <Disclosure.Panel className="sm:hidden">
+            <div className="px-2 pt-2 pb-3 space-y-1">
+              {navigation.map((item) => (
+                <Disclosure.Button
+                  key={item.name}
+                  as="a"
+                  href={item.href}
+                  className={classNames(
+                    item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                    'block px-3 py-2 rounded-md text-base font-medium'
+                  )}
+                  aria-current={item.current ? 'page' : undefined}
+                >
+                  {item.name}
+                </Disclosure.Button>
+              ))}
+            </div>
+          </Disclosure.Panel>
+        </>)}
+    </Disclosure>
   );
 };
 
@@ -147,13 +181,12 @@ const Pagination = () => {
 
 const Home: NextPage = () => {
   return (
-    <div className="flex min-h-screen flex-col items-center py-2">
+    <div className="flex min-h-screen flex-col items-center">
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {/* <MyTabs /> */}
-      <IndigoTabs />
+      <Navigation />
       <GridLayout />
       <Pagination />
 
