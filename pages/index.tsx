@@ -279,7 +279,7 @@ const NewsCard = ({ data, setPreviewOpened, setPreviewContent }: { data: any, se
         <div className="w-3/5 h-full p-3 flex flex-wrap content-between">
           <p className="text-lg text-left font-semibold group-hover:underline">{data.title}</p>
           <div className="w-full text-gray-500 text-right flex justify-between">
-            <p>{data.time}</p>
+            <p>{data.time.slice(0,10)}</p>
             <p>{data.src}</p>
           </div>
         </div>
@@ -305,7 +305,7 @@ const Home: NextPage<any> = ({ newsList }) => {
   return (
     <div className="flex min-h-screen flex-col items-center">
       <Head>
-        <title>Create Next App</title>
+        <title>云雀 · 一个自由的新闻APP</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <GridLayout newsList={newsList} setPreviewOpened={setPreviewOpened} setPreviewContent={setPreviewContent} />
